@@ -8,10 +8,6 @@ public class RectangleSidesAssert extends AbstractAssert<RectangleSidesAssert, R
         super(actual, RectangleSidesAssert.class);
     }
 
-    public static RectangleSidesAssert assertThat(Rectangle actual) {
-        return new RectangleSidesAssert(actual);
-    }
-
     public RectangleSidesAssert constrainsSidesTo(int length) {
         isNotNull();
 

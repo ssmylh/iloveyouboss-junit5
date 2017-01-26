@@ -4,14 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static scratch.RectangleAssert.*;
 
 public class RectangleTest {
     private Rectangle rectangle;
 
     @AfterEach
     public void ensureInvariant() {
-        RectangleSidesAssert.assertThat(rectangle).constrainsSidesTo(100);
+        assertThat(rectangle).constrainsSidesTo(100);
     }
 
     @Test
