@@ -21,22 +21,6 @@ public class ProfileTest {
         criteria = new Criteria();
     }
 
-    @Test
-    void matchAnswersFalseWhenMustMatchCriteriaNotMet() {
-        profile.add(new Answer(question, Bool.FALSE));
-        criteria.add(new Criterion(new Answer(question, Bool.TRUE), Weight.MustMatch));
-
-        assertThat(profile.matches(criteria)).isFalse();
-    }
-
-    @Test
-    void matchAnswersTrueForAnyDontCareCriteria() {
-        profile.add(new Answer(question, Bool.FALSE));
-        criteria.add(new Criterion(new Answer(question, Bool.TRUE), Weight.DontCare));
-
-        assertThat(profile.matches(criteria)).isTrue();
-    }
-
     int[] ids(List<Answer> answers) {
         return answers.stream()
                 .mapToInt(a -> a.getQuestion().getId()).toArray();
