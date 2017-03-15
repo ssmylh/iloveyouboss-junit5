@@ -13,6 +13,7 @@ package util;
 // http://www.gutenberg.org/cache/epub/2701/pg2701.txt
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -27,6 +28,7 @@ import static util.SearchTestAssertions.*;
 
 public class SearchTest {
 
+    @Disabled
     @Test
     public void testSearch() throws Exception {
         String pageContent = "There are certain queer times and occasions "
