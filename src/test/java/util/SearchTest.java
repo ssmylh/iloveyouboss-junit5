@@ -1,17 +1,18 @@
 /***
  * Excerpted from "Pragmatic Unit Testing in Java with JUnit",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/utj2 for more book information.
  ***/
 package util;
 
 
-// text courtesy of Herman Melville (Moby Dick) from 
-// http://www.gutenberg.org/cache/epub/2701/pg2701.txt 
+// text courtesy of Herman Melville (Moby Dick) from
+// http://www.gutenberg.org/cache/epub/2701/pg2701.txt
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +22,8 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.logging.Level;
 
-import static org.assertj.core.api.Assertions.*;
+import static util.SearchTestAssertions.*;
+
 
 public class SearchTest {
 
@@ -42,10 +44,9 @@ public class SearchTest {
         search.execute();
         assertThat(search.errored()).isFalse();
         List<Match> matches = search.getMatches();
-        assertThat(matches.size()).isGreaterThanOrEqualTo(1);
-        Match match = matches.get(0);
-        assertThat(match.searchString).isEqualTo("practical joke");
-        assertThat(match.surroundingContext).isEqualTo("or a vast practical joke, though t");
+        assertThat(matches.toArray(new Match[matches.size()])).containsMatches(new Match[]{
+                new Match("1", "practical joke", "or a vast practical joke, though t")
+        });
         stream.close();
 
         // negative
@@ -54,7 +55,13 @@ public class SearchTest {
         InputStream inputStream = connection.getInputStream();
         search = new Search(inputStream, "smelt", "http://bit.ly/15sYPA7");
         search.execute();
-        assertThat(search.getMatches().size()).isEqualTo(0);
+        assertThat(search.getMatches()).isEmpty();
         stream.close();
+    }
+}
+
+class SearchTestAssertions extends Assertions {
+    public static MatchesAssert assertThat(Match[] actual) {
+        return new MatchesAssert(actual);
     }
 }
