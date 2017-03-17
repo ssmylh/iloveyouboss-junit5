@@ -53,7 +53,9 @@ public class SearchTest {
                 + "his own.");
         Search search = new Search(stream, "practical joke", A_TITLE);
         search.setSurroundingCharacterCount(10);
+
         search.execute();
+
         List<Match> matches = search.getMatches();
         assertThat(matches.toArray(new Match[matches.size()])).containsMatches(new Match[]{
                 new Match(A_TITLE, "practical joke", "or a vast practical joke, though t")
@@ -67,7 +69,9 @@ public class SearchTest {
                 new URL("http://bit.ly/15sYPA7").openConnection();
         stream = connection.getInputStream();
         Search search = new Search(stream, "smelt", A_TITLE);
+
         search.execute();
+
         assertThat(search.getMatches()).isEmpty();
     }
 
