@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
@@ -64,6 +65,32 @@ public class SearchTest {
 
         assertThat(search.getMatches()).isEmpty();
     }
+
+    @Test
+    public void returnsErroredWhenUnableToReadStream() {
+        stream = createStreamThrowingErrorWhenRead();
+        Search search = new Search(stream, "", "");
+        search.execute();
+        assertThat(search.errored()).isTrue();
+    }
+
+    private InputStream createStreamThrowingErrorWhenRead() {
+        return new InputStream() {
+            @Override
+            public int read() throws IOException {
+                throw new IOException();
+            }
+        };
+    }
+
+    @Test
+    public void erroredReturnsFalseWhenReadSucceeds() {
+        stream = streamOn("");
+        Search search = new Search(stream, "", "");
+        search.execute();
+        assertThat(search.errored()).isFalse();
+    }
+
 
     private InputStream streamOn(String pageContent) {
         return new ByteArrayInputStream(pageContent.getBytes());
