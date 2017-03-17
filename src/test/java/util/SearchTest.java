@@ -27,6 +27,7 @@ import static util.SearchTestAssertions.*;
 
 
 public class SearchTest {
+    private static final String A_TITLE = "1";
 
     @Disabled
     @Test
@@ -40,14 +41,14 @@ public class SearchTest {
         byte[] bytes = pageContent.getBytes();
         ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
         // search
-        Search search = new Search(stream, "practical joke", "1");
+        Search search = new Search(stream, "practical joke", A_TITLE);
         Search.LOGGER.setLevel(Level.OFF);
         search.setSurroundingCharacterCount(10);
         search.execute();
         assertThat(search.errored()).isFalse();
         List<Match> matches = search.getMatches();
         assertThat(matches.toArray(new Match[matches.size()])).containsMatches(new Match[]{
-                new Match("1", "practical joke", "or a vast practical joke, though t")
+                new Match(A_TITLE, "practical joke", "or a vast practical joke, though t")
         });
         stream.close();
 
@@ -55,7 +56,7 @@ public class SearchTest {
         URLConnection connection =
                 new URL("http://bit.ly/15sYPA7").openConnection();
         InputStream inputStream = connection.getInputStream();
-        search = new Search(inputStream, "smelt", "http://bit.ly/15sYPA7");
+        search = new Search(inputStream, "smelt", A_TITLE);
         search.execute();
         assertThat(search.getMatches()).isEmpty();
         stream.close();
