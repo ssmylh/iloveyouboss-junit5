@@ -1,15 +1,29 @@
 package tdd;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class ProfileTest {
+    Profile profile;
+    BooleanQuestion questionIsThereRelocation;
+    Answer answerThereIsRelocation;
+
+    @BeforeEach
+    void createProfile() {
+        this.profile = new Profile();
+    }
+
+    @BeforeEach
+    void createQuestion() {
+        questionIsThereRelocation = new BooleanQuestion(1, "転居時のサポートはありますか?");
+        answerThereIsRelocation = new Answer(questionIsThereRelocation, Bool.TRUE);
+    }
+
     @Test
     void matchesNothingWhenProfileEmpty() {
-        Profile profile = new Profile();
-        Question question = new BooleanQuestion(1, "転居時のサポートはありますか?");
-        Criterion criterion = new Criterion(new Answer(question, Bool.TRUE), Weight.DontCare);
+        Criterion criterion = new Criterion(answerThereIsRelocation, Weight.DontCare);
 
         boolean result = profile.matches(criterion);
 
@@ -18,11 +32,8 @@ public class ProfileTest {
 
     @Test
     public void matchesWhenProfileContainsMatchingAnswer() {
-        Profile profile = new Profile();
-        Question question = new BooleanQuestion(1, "転居時のサポートはありますか?");
-        Answer answer = new Answer(question, Bool.TRUE);
-        profile.add(answer);
-        Criterion criterion = new Criterion(answer, Weight.Important);
+        profile.add(answerThereIsRelocation);
+        Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
 
         boolean result = profile.matches(criterion);
 
