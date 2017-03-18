@@ -15,4 +15,18 @@ public class ProfileTest {
 
         assertThat(result).isFalse();
     }
+
+    @Test
+    public void matchesWhenProfileContainsMatchingAnswer() {
+        Profile profile = new Profile();
+        Question question = new BooleanQuestion(1, "転居時のサポートはありますか?");
+        Answer answer = new Answer(question, Bool.TRUE);
+        profile.add(answer);
+        Criterion criterion = new Criterion(answer, Weight.Important);
+
+        boolean result = profile.matches(criterion);
+
+        assertThat(result).isTrue();
+    }
+
 }
