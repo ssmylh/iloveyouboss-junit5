@@ -39,9 +39,7 @@ public class ProfileTest {
     void matchesNothingWhenProfileEmpty() {
         Criterion criterion = new Criterion(answerThereIsRelocation, Weight.DontCare);
 
-        boolean result = profile.matches(criterion);
-
-        assertThat(result).isFalse();
+        assertThat(profile.matches(criterion)).isFalse();
     }
 
     @Test
@@ -49,9 +47,7 @@ public class ProfileTest {
         profile.add(answerThereIsRelocation);
         Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
 
-        boolean result = profile.matches(criterion);
-
-        assertThat(result).isTrue();
+        assertThat(profile.matches(criterion)).isTrue();
     }
 
     @Test
@@ -59,9 +55,7 @@ public class ProfileTest {
         profile.add(answerThereIsNotRelocation);
         Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
 
-        boolean result = profile.matches(criterion);
-
-        assertThat(result).isFalse();
+        assertThat(profile.matches(criterion)).isFalse();
     }
 
     @Test
@@ -70,9 +64,7 @@ public class ProfileTest {
         profile.add(answerDoesNotReimburseTuition);
         Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
 
-        boolean result = profile.matches(criterion);
-
-        assertThat(result).isTrue();
+        assertThat(profile.matches(criterion)).isTrue();
     }
 
     @Test
@@ -81,9 +73,7 @@ public class ProfileTest {
         criteria.add(new Criterion(answerThereIsRelocation, Weight.Important));
         criteria.add(new Criterion(answerReimbursesTuition, Weight.Important));
 
-        boolean result = profile.matches(criteria);
-
-        assertThat(result).isFalse();
+        assertThat(profile.matches(criteria)).isFalse();
     }
 
     @Test
@@ -92,9 +82,7 @@ public class ProfileTest {
         criteria.add(new Criterion(answerThereIsRelocation, Weight.Important));
         criteria.add(new Criterion(answerReimbursesTuition, Weight.Important));
 
-        boolean result = profile.matches(criteria);
-
-        assertThat(result).isTrue();
+        assertThat(profile.matches(criteria)).isTrue();
     }
 
     @Test
