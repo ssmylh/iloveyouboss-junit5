@@ -10,6 +10,8 @@ public class ProfileTest {
     BooleanQuestion questionIsThereRelocation;
     Answer answerThereIsRelocation;
     Answer answerThereIsNotRelocation;
+    BooleanQuestion questionReimbursesTuition;
+    Answer answerDoesNotReimburseTuition;
 
     @BeforeEach
     void createProfile() {
@@ -21,6 +23,8 @@ public class ProfileTest {
         questionIsThereRelocation = new BooleanQuestion(1, "転居時のサポートはありますか?");
         answerThereIsRelocation = new Answer(questionIsThereRelocation, Bool.TRUE);
         answerThereIsNotRelocation = new Answer(questionIsThereRelocation, Bool.FALSE);
+        questionReimbursesTuition = new BooleanQuestion(1, "奨学金制度はありますか?");
+        answerDoesNotReimburseTuition = new Answer(questionReimbursesTuition, Bool.FALSE);
     }
 
     @Test
@@ -50,5 +54,16 @@ public class ProfileTest {
         boolean result = profile.matches(criterion);
 
         assertThat(result).isFalse();
+    }
+
+    @Test
+    void matchesWhenContainsMultipleAnswers() {
+        profile.add(answerThereIsRelocation);
+        profile.add(answerDoesNotReimburseTuition);
+        Criterion criterion = new Criterion(answerThereIsRelocation, Weight.Important);
+
+        boolean result = profile.matches(criterion);
+
+        assertThat(result).isTrue();
     }
 }
