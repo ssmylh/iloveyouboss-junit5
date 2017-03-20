@@ -11,6 +11,9 @@ public class Profile {
     }
 
     public boolean matches(Criterion criterion) {
+        if (criterion.getWeight() == Weight.DontCare) {
+            return true;
+        }
         Answer answer = getMatchingProfileAnswer(criterion);
         return criterion.getAnswer().match(answer);
     }
